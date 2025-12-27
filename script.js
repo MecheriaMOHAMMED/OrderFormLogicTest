@@ -3,15 +3,18 @@ const phoneInput = document.getElementById('phone');
 const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbypQ9JzFp7ogxz42zXwKejfzuLUNApU81Tzx-RDHgVCnMGWDZcbQl-lYrHF84graJSb/exec';
 
 const LEAD_URL = WEB_APP_URL + '?lead=1';
-let leadSent = false;   // UNCOMMENT this
 
+// Save lead once per phone per browser using localStorage
 phoneInput.addEventListener('blur', async () => {
   const phone = phoneInput.value.trim();
   const isValid = /^(05|06|07)[0-9]{8}$/.test(phone);
-  if (!isValid || leadSent) return;
+  if (!isValid) return;
+
+  // avoid sending the same phone again from this browser
+  if (localStorage.getItem('lead_' + phone) === '1') return;
 
   const name = document.querySelector('input[name="name"]').value.trim();
-  if (!name) return;
+  if (!name) return; // need at least name + phone
 
   const leadForm = new FormData();
   leadForm.append('name', name);
@@ -19,13 +22,13 @@ phoneInput.addEventListener('blur', async () => {
 
   try {
     await fetch(LEAD_URL, { method: 'POST', body: leadForm });
-    leadSent = true;
+    localStorage.setItem('lead_' + phone, '1'); // mark as sent
   } catch (e) {
     console.log(e);
   }
 });
 
-// visual feedback
+// visual feedback on phone validity
 phoneInput.addEventListener('input', () => {
   const phone = phoneInput.value;
   const isValidAlgeria = /^(05|06|07)[0-9]{8}$/.test(phone);
