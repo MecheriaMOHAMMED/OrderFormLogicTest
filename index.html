@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr-DZ">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commande Express - Pizza & Burger</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🍕 Commande Express</h1>
+      <p>Rapide - Fiable - Livraison 30min</p>
+    </div>
+
+    <form id="orderForm" class="form">
+      <input
+        name="name"
+        placeholder="👤 Nom complet"
+        required
+      />
+
+      <input name="phone" id="phone" placeholder="05/06/07 XXX XXXX" 
+       pattern="^(05|06|07)[0-9]{8}$" required 
+       title="Format: 05XXXXXXXX ou 06XXXXXXXX ou 07XXXXXXXX">
+
+      <select name="items" required>
+        <option value="">🍽️ Choisir votre plat</option>
+        <option value="Pizza Margherita (15€)">
+          🍕 Pizza Margherita (15€)
+        </option>
+        <option value="Burger Classic (12€)">
+          🍔 Burger Classic (12€)
+        </option>
+        <option value="Sandwich Poulet (10€)">
+          🥪 Sandwich Poulet (10€)
+        </option>
+        <option value="Menu Famille">
+          👨‍👩‍👧‍👦 Menu Famille (35€)
+        </option>
+      </select>
+
+      <input
+        name="qty"
+        type="number"
+        placeholder="📊 Quantité"
+        min="1"
+        max="20"
+        value="1"
+        required
+      />
+
+      <input
+        name="address"
+        placeholder="📍 Adresse complète (ex: Rue Didouche Mourad n°12)"
+        required
+      />
+
+      <select name="payment" required>
+        <option value="">💳 Méthode de paiement</option>
+        <option value="Cash">💵 Espèces à la livraison</option>
+        <option value="Card">💳 Carte bancaire</option>
+        <option value="Chipper">📱 Chipper Cash</option>
+      </select>
+
+      <button type="submit" class="order-btn" id="orderBtn">
+        🚀 Commander Maintenant
+      </button>
+    </form>
+
+    <div id="success" class="success">
+      <h2>✅ Commande Enregistrée!</h2>
+      <p>ID: <span id="orderId"></span></p>
+      <p>On vous contacte par WhatsApp dans 2min 📱</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
