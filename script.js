@@ -13,16 +13,15 @@ phoneInput.addEventListener('blur', async () => {
   // avoid sending the same phone again from this browser
   if (localStorage.getItem('lead_' + phone) === '1') return;
 
-  const name = document.querySelector('input[name="name"]').value.trim();
-  if (!name) return; // need at least name + phone
+  const name = document.querySelector('input[name="name"]').value.trim(); // can be empty
 
   const leadForm = new FormData();
-  leadForm.append('name', name);
+  leadForm.append('name', name);   // may be ""
   leadForm.append('phone', phone);
 
   try {
-    await fetch(LEAD_URL, { method: 'POST', body: leadForm });
-    localStorage.setItem('lead_' + phone, '1'); // mark as sent
+    await fetch(LEAD_URL, { method: 'POST', body: leadForm });  // send to Apps Script
+    localStorage.setItem('lead_' + phone, '1');                 // mark as sent
   } catch (e) {
     console.log(e);
   }
@@ -49,7 +48,7 @@ form.onsubmit = async (e) => {
       method: 'POST',
       body: formData,
     });
-    const result = await response.json();
+    const result = await response.json();   // { orderId, leadsSaved }
 
     document.getElementById('orderId').textContent = result.orderId;
     document.getElementById('success').style.display = 'block';
